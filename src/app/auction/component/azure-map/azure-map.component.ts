@@ -1,6 +1,8 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {AuthenticationType, data, HtmlMarker, Map, Popup} from 'azure-maps-control';
-import {Auction} from '../../interface/auction';
+import {Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AuthenticationType, data, HtmlMarker, Map} from 'azure-maps-control';
+import {Auction, AuctionAsset} from '../../interface/auction';
+import {DialogComponentComponent} from "../dialog-component/dialog-component.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -21,6 +23,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
 
   @ViewChild('map', {static: true}) mapContainer?: ElementRef;
   @Input() auctions!: Auction[];
+  private dialog = inject(MatDialog);
 
   private map!: Map;
 
@@ -67,19 +70,14 @@ export class AzureMapComponent implements OnInit, OnChanges {
                 position: position,
                 color: 'green',
                 text: "!",
-                popup: new Popup({
-                  content: this.createPopupContent(auction, asset),
-                  position: position,
-                  pixelOffset: [0, -30]
-                })
               });
 
               this.map.markers.add(marker);
 
-              //Add a click event to toggle the popup.
               this.map.events.add('click', marker, () => {
                 marker.togglePopup();
                 console.log("Click!")
+                this.openDialog(auction, asset)
               });
 
             }
@@ -89,16 +87,11 @@ export class AzureMapComponent implements OnInit, OnChanges {
     }
   }
 
-  private createPopupContent(auction: Auction, asset: any): string {
-    return `
-      <div style="padding: 10px;">
-        <strong>Auction ID:</strong> ${auction.identifier}<br>
-        <strong>Type:</strong> ${auction.auctionType}<br>
-        <strong>Address:</strong> ${asset.fullAddress}<br>
-        <strong>Appraisal Value:</strong> ${auction.appraisalValue}<br>
-        <strong>Minimum Bid:</strong> ${auction.minimumBid}<br>
-      </div>
-    `;
+  private openDialog(auction: Auction, asset: AuctionAsset): void {
+    this.dialog.open(DialogComponentComponent, {
+      width: '400px',
+      data: [auction, asset]
+    });
   }
 
   private centerMap() {
