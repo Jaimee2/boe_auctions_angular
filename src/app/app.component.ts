@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {MapComponent} from "./map/map.component";
+import {MapComponent} from "./auction/component/map.component";
 
 @Component({
   selector: 'app-root',
@@ -9,11 +9,7 @@ import {MapComponent} from "./map/map.component";
   imports: [CommonModule, RouterOutlet, MapComponent],
   template:
     `
-      <h1>Hello world</h1>
-
-      <div class="map-container">
-        <app-map></app-map>
-      </div>
+      <router-outlet></router-outlet>
     `,
   styles: [`
     .map-container {
