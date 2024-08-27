@@ -8,7 +8,7 @@ import {Auction} from "./interface/auction";
 })
 export class AuctionServiceService {
 
-  private apiUrl = 'http://localhost:8080/auction';
+  private apiUrl = 'http://localhost:7071/auction';
 
   constructor(private http: HttpClient) {
   }
