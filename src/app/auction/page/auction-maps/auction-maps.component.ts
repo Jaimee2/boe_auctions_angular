@@ -74,7 +74,10 @@ export class AuctionMapsComponent implements OnInit {
 
   ngOnInit(): void {
     this.auctionService.getAuctions()
-      .subscribe(data => this.auctions = data)
+      .subscribe(data => {
+        console.log(data)
+        this.auctions = data
+      })
   }
 
 
