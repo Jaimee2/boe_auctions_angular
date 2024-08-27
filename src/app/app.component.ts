@@ -9,6 +9,7 @@ import {RouterOutlet} from '@angular/router';
   imports: [CommonModule, RouterOutlet],
   template:
     `
+      <h1>Welcome to boe auction Angular app</h1>
       <router-outlet></router-outlet>
     `,
   styles: [``]

@@ -5,5 +5,9 @@ export const routes: Routes = [
   {
     path: 'map',
     component: AuctionMapsComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'map'
   }
 ];
