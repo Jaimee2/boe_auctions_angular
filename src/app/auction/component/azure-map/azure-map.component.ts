@@ -1,18 +1,6 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {AuthenticationType, data, HtmlMarker, Map} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
-
-import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -37,7 +25,6 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   @ViewChild('map', {static: true}) mapContainer?: ElementRef;
   @Input() auctions!: Auction[];
-  private dialog = inject(MatDialog);
 
   private map!: Map;
 
