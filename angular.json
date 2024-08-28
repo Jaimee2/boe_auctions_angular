@@ -22,17 +22,10 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/leaflet/dist/images/",
-                "output": "./assets"
-              }
+              "src/assets"
             ],
             "styles": [
               "src/styles.css",
-              "@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/azure-maps-control/dist/atlas.min.css"
             ],
             "scripts": [
@@ -44,7 +37,6 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
                   "maximumError": "5mb"
                 },
                 {

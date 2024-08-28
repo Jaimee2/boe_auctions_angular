@@ -25,8 +25,8 @@ import {MatDialog} from "@angular/material/dialog";
   styles: [`
     #map {
       /* Default values */
-      height: 90vh;
-      width: 90vw;
+      height: 500px;
+      width: 500px;
     }
   `]
 })
