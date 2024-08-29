@@ -16,6 +16,7 @@ export interface Auction {
 
 export interface AuctionAsset {
   assetLink: string;
+  assetType: string;
   description: string;
   cadastralReference: string;
   address: string;

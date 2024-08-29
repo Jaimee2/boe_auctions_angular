@@ -21,6 +21,8 @@ import {DatePipe} from "@angular/common";
       </h2>
 
       <p class=""><strong>Identifier:</strong> {{ data[0].identifier }}</p>
+      <p class=""><strong>Type:</strong> {{ data[1].assetType }}</p>
+
       <p class=""><strong>Lots:</strong> {{ data[0].lots }}</p>
 
       <p class=""><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
@@ -39,6 +41,7 @@ import {DatePipe} from "@angular/common";
               class="bg-gray-400 text-white font-bold py-2 px-4 rounded hover:bg-gray-500">
         Go to asset page
       </button>
+
     </div>
 
   `,
@@ -50,6 +53,7 @@ export class DialogComponent {
   protected endDate?: Date;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: [Auction, AuctionAsset]) {
+    console.log(data)
     this.startDate = this.transformDate(data[0].startDate);
     this.endDate = this.transformDate(data[0].endDate);
   }
