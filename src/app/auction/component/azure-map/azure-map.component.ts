@@ -1,6 +1,18 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {AuthenticationType, data, HtmlMarker, Map} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
+import {DialogComponent} from "../dialog/dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -12,9 +24,8 @@ import {Auction, AuctionAsset} from '../../interface/auction';
   `,
   styles: [`
     #map {
-      /* Default values */
-      height: 500px;
-      width: 500px;
+      height: 80vh;
+      width: 80vh;
     }
   `]
 })
@@ -27,6 +38,7 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() auctions!: Auction[];
 
   private map!: Map;
+  private dialog = inject(MatDialog);
 
   constructor(private el: ElementRef) {
   }
@@ -95,7 +107,10 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private openDialog(auction: Auction, asset: AuctionAsset): void {
-    console.log("TODO!!!!")
+    this.dialog.open(DialogComponent, {
+      width: '400px',
+      data: [auction, asset]
+    });
   }
 
   private centerMap() {
