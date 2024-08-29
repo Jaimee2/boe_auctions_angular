@@ -24,8 +24,8 @@ import {MatDialog} from "@angular/material/dialog";
   `,
   styles: [`
     #map {
-      height: 80vh;
-      width: 80vh;
+      height: 90vh;
+      width: 90vh;
     }
   `]
 })
@@ -85,8 +85,21 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
           auction.assets.forEach(asset => {
             if (asset.coordinates) {
               const position = [parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)];
+              let iconUrl;
+              if (asset.assetType === 'Vivienda') {
+                iconUrl = "assets/img/house.svg";
+              } else {
+                iconUrl = "assets/img/garage.png";
+              }
               const marker = new HtmlMarker({
                 position: position,
+                htmlContent: `
+                             <div class="flex justify-center items-center mb-4 bg-white-900">
+                                <div class="bg-lime-300 rounded-full p-1 m-1">
+                                <img alt="house" class="h-5 w-5" src="${iconUrl}">
+                                </div>
+                             </div>
+                             `,
                 color: 'green',
                 text: "!",
               });
