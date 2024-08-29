@@ -9,18 +9,17 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {AuthenticationType, data, HtmlMarker, Map} from 'azure-maps-control';
+import {AuthenticationType, data, HtmlMarker, Map as AzureMap} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
 import {DialogComponent} from "../dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-
 
 @Component({
   selector: 'app-azure-map',
   standalone: true,
   imports: [],
   template: `
-    <div #map id="map"></div>
+    <div #map id="map" class="rounded-md"></div>
   `,
   styles: [`
     #map {
@@ -30,15 +29,19 @@ import {MatDialog} from "@angular/material/dialog";
   `]
 })
 export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
-
+  @ViewChild('map', {static: true}) mapContainer?: ElementRef;
   @Input() height?: string;
   @Input() width?: string;
-
-  @ViewChild('map', {static: true}) mapContainer?: ElementRef;
   @Input() auctions!: Auction[];
-
-  private map!: Map;
+  private map!: AzureMap;
   private dialog = inject(MatDialog);
+
+  private assetIcons = new Map<string, string>([
+    ['Vivienda', 'assets/img/house.svg'],
+    ['Garaje', 'assets/img/garage.png'],
+    ['Nave industrial', 'assets/img/warehouse.png'],
+    ['Local comercial', 'assets/img/store.png'],
+  ]);
 
   constructor(private el: ElementRef) {
   }
@@ -62,7 +65,7 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   private initializeMap() {
 
-    this.map = new Map(this.mapContainer?.nativeElement, {
+    this.map = new AzureMap(this.mapContainer?.nativeElement, {
       center: [-3.7035825, 40.4167047], // Centered on Madrid
       zoom: 12,
       language: 'en-US',
@@ -85,17 +88,12 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
           auction.assets.forEach(asset => {
             if (asset.coordinates) {
               const position = [parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)];
-              let iconUrl;
-              if (asset.assetType === 'Vivienda') {
-                iconUrl = "assets/img/house.svg";
-              } else {
-                iconUrl = "assets/img/garage.png";
-              }
+              const iconUrl = this.assetIcons.get(asset.assetType);
               const marker = new HtmlMarker({
                 position: position,
                 htmlContent: `
                              <div class="flex justify-center items-center mb-4 bg-white-900">
-                                <div class="bg-lime-300 rounded-full p-1 m-1">
+                                <div class="bg-lime-300 rounded-full p-2 m-2">
                                 <img alt="house" class="h-5 w-5" src="${iconUrl}">
                                 </div>
                              </div>
