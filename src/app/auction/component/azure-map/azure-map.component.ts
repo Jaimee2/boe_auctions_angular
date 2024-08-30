@@ -19,9 +19,13 @@ import {MatDialog} from "@angular/material/dialog";
   standalone: true,
   imports: [],
   template: `
-    <div #map id="map" class="rounded-md border-8"></div>
+    <div #map id="map" class="rounded-md"></div>
   `,
   styles: [`
+    #map{
+      height: 100vh;
+      width: 100vw;
+    }
   `]
 })
 export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
@@ -93,8 +97,8 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
               const marker = new HtmlMarker({
                 position: position,
                 htmlContent: `
-                             <div class="flex justify-center items-center mb-4 bg-white-900">
-                                <div class="bg-lime-300 rounded-full p-2 m-2">
+                             <div class="flex justify-center items-center mb-2 bg-white-900">
+                                <div class="bg-lime-300 rounded-full p-1 m-1">
                                 <img alt="house" class="h-5 w-5" src="${iconUrl}">
                                 </div>
                              </div>
