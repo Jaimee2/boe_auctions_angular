@@ -19,13 +19,10 @@ import {MatDialog} from "@angular/material/dialog";
   standalone: true,
   imports: [],
   template: `
-    <div #map id="map" class="rounded-md"></div>
+    <div #map class=" h-full w-full" id="map"></div>
   `,
   styles: [`
-    #map{
-      height: 100vh;
-      width: 100vw;
-    }
+
   `]
 })
 export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {

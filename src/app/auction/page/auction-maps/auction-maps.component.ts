@@ -18,15 +18,14 @@ import {hidden} from "ansi-colors";
       </header>
     </div>
 
-    <div class="lg:flex">
-      <div class="lg:flex-none lg:basis-1/4">
+    <div class="flex bg-red-600">
+      <div class="flex-none basis-1/6">
         01 --------
 
       </div>
-
-      <div class="lg:flex-auto lg:basis-3/4">
-          <app-azure-map [auctions]="this.auctions"></app-azure-map>
-      </div>
+      <app-azure-map [auctions]="this.auctions"
+                     class="flex-auto bg-red-600 h-screen"
+      ></app-azure-map>
 
     </div>
 
