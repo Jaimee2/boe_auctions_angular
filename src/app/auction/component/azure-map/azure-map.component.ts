@@ -19,19 +19,17 @@ import {MatDialog} from "@angular/material/dialog";
   standalone: true,
   imports: [],
   template: `
-    <div #map id="map" class="rounded-md"></div>
+    <div #map id="map" class="rounded-md border-8"></div>
   `,
   styles: [`
-    #map {
-      height: 90vh;
-      width: 90vh;
-    }
   `]
 })
 export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
-  @ViewChild('map', {static: true}) mapContainer?: ElementRef;
+  @ViewChild('map', {static: true}) mapContainer!: ElementRef;
+
   @Input() height?: string;
   @Input() width?: string;
+
   @Input() auctions!: Auction[];
   private map!: AzureMap;
   private dialog = inject(MatDialog);
@@ -48,15 +46,18 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     const mapElement = this.el.nativeElement.querySelector('#map');
-    mapElement.style.height = this.height;
-    mapElement.style.width = this.width;
+
   }
 
   ngOnInit() {
     this.initializeMap();
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log("this changed !! ")
+    this.mapContainer.nativeElement.style.height = this.height;
+    this.mapContainer.nativeElement.style.width = this.width;
     if (changes['auctions']) {
       this.addMarkers();
       this.centerMap();
