@@ -5,10 +5,11 @@ import {Auction} from "../../interface/auction";
 import {JsonPipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {AzureMapComponent} from "../../component/azure-map/azure-map.component";
 import {hidden} from "ansi-colors";
+import {FilterComponent} from "../../component/filter/filter.component";
 
 @Component({
   standalone: true,
-  imports: [JsonPipe, AzureMapComponent, NgClass, NgIf, NgStyle],
+  imports: [JsonPipe, AzureMapComponent, NgClass, NgIf, NgStyle, FilterComponent],
   template: `
 
     <div class=" w-screen flex flex-col">
@@ -18,13 +19,13 @@ import {hidden} from "ansi-colors";
       </header>
     </div>
 
-    <div class="flex bg-red-600">
+    <div class="flex">
       <div class="flex-none basis-1/6">
-        01 --------
-
+        <app-filter></app-filter>
       </div>
+
       <app-azure-map [auctions]="this.auctions"
-                     class="flex-auto bg-red-600 h-screen"
+                     class="flex-auto h-screen pl-5"
       ></app-azure-map>
 
     </div>
