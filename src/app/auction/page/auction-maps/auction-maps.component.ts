@@ -13,14 +13,13 @@ import {FilterComponent} from "../../component/filter/filter.component";
   template: `
 
     <div class=" w-screen flex flex-col">
-      <!-- Header at the top of the page -->
       <header class="p-4 bg-white text-center">
         <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Auction Map</h2>
       </header>
     </div>
 
     <div class="flex">
-      <div class="flex-none basis-1/6">
+      <div class="flex-none basis-1/6 hidden">
         <app-filter></app-filter>
       </div>
 

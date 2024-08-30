@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {Auction, AuctionAsset} from "../../interface/auction";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {DatePipe} from "@angular/common";
+import {Constants} from "../../constants";
 
 @Component({
   selector: 'app-dialog',
@@ -9,10 +10,10 @@ import {DatePipe} from "@angular/common";
   imports: [DatePipe],
   template: `
 
-    <div class="max-w-sm mx-auto  shadow-lg p-6 text-center">
+    <div class="max-w-sm mx-auto p-6 text-center">
       <div class="flex justify-center items-center mb-4">
-        <div class="bg-green-100 rounded-full p-2">
-          <img alt="house" class="h-6 w-6" src="assets/img/house.svg">
+        <div class="bg-white rounded-full p-2">
+          <img [src]="getIconByAssetType(data[1].assetType)" alt="" class="h-8 w-8">
         </div>
       </div>
 
@@ -20,15 +21,15 @@ import {DatePipe} from "@angular/common";
         Auction detail
       </h2>
 
-      <p class=""><strong>Identifier:</strong> {{ data[0].identifier }}</p>
-      <p class=""><strong>Type:</strong> {{ data[1].assetType }}</p>
+      <p><strong>Identifier:</strong> {{ data[0].identifier }}</p>
+      <p><strong>Type:</strong> {{ data[1].assetType }}</p>
 
-      <p class=""><strong>Lots:</strong> {{ data[0].lots }}</p>
+      <p><strong>Lots:</strong> {{ data[0].lots }}</p>
 
-      <p class=""><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
-      <p class=""><strong>Minimum Bid:</strong> {{ data[0].minimumBid }}</p>
-      <p class=""><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
-      <p class=""><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
+      <p><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
+      <p><strong>Minimum Bid:</strong> {{ data[0].minimumBid }}</p>
+      <p><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
+      <p><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
 
       <div class="max-w-lg mx-auto p-4">
         <div class="flex space-x-20 mb-2">
@@ -67,6 +68,10 @@ export class DialogComponent {
     console.log(`${year}-${month}-${day}T${time}`);
     const date = new Date(`${year}-${month}-${day} ${time}:00:00`);
     return date;
+  }
+
+  getIconByAssetType(assetType: string): string | undefined {
+    return Constants.assetIcons.get(assetType);
   }
 
 }

@@ -1,18 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {AuthenticationType, data, HtmlMarker, Map as AzureMap} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
 import {DialogComponent} from "../dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Constants} from "../../constants";
 
 @Component({
   selector: 'app-azure-map',
@@ -25,29 +16,13 @@ import {MatDialog} from "@angular/material/dialog";
 
   `]
 })
-export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
+export class AzureMapComponent implements OnInit, OnChanges {
   @ViewChild('map', {static: true}) mapContainer!: ElementRef;
-
-  @Input() height?: string;
-  @Input() width?: string;
-
   @Input() auctions!: Auction[];
   private map!: AzureMap;
   private dialog = inject(MatDialog);
 
-  private assetIcons = new Map<string, string>([
-    ['Vivienda', 'assets/img/house.svg'],
-    ['Garaje', 'assets/img/garage.png'],
-    ['Nave industrial', 'assets/img/warehouse.png'],
-    ['Local comercial', 'assets/img/store.png'],
-  ]);
-
-  constructor(private el: ElementRef) {
-  }
-
-  ngAfterViewInit() {
-    const mapElement = this.el.nativeElement.querySelector('#map');
-
+  constructor() {
   }
 
   ngOnInit() {
@@ -57,8 +32,6 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("this changed !! ")
-    this.mapContainer.nativeElement.style.height = this.height;
-    this.mapContainer.nativeElement.style.width = this.width;
     if (changes['auctions']) {
       this.addMarkers();
       this.centerMap();
@@ -69,7 +42,7 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.map = new AzureMap(this.mapContainer?.nativeElement, {
       center: [-3.7035825, 40.4167047], // Centered on Madrid
-      zoom: 12,
+      zoom: 10,
       language: 'en-US',
       authOptions: {
         authType: AuthenticationType.subscriptionKey,
@@ -84,39 +57,36 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private addMarkers() {
-    if (this.map && this.auctions && this.auctions.length > 0) {
-      this.auctions.forEach(auction => {
-        if (auction.assets && auction.assets.length > 0) {
-          auction.assets.forEach(asset => {
-            if (asset.coordinates) {
-              const position = [parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)];
-              const iconUrl = this.assetIcons.get(asset.assetType);
-              const marker = new HtmlMarker({
-                position: position,
-                htmlContent: `
-                             <div class="flex justify-center items-center mb-2 bg-white-900">
-                                <div class="bg-lime-300 rounded-full p-1 m-1">
-                                <img alt="house" class="h-5 w-5" src="${iconUrl}">
-                                </div>
-                             </div>
-                             `,
-                color: 'green',
-                text: "!",
-              });
+    if (this.map && this.auctions && this.auctions.length == 0) return;
 
-              this.map.markers.add(marker);
+    this.auctions.forEach(auction => {
+      if (auction.assets && auction.assets.length == 0) return;
 
-              this.map.events.add('click', marker, () => {
-                marker.togglePopup();
-                console.log("Click!")
-                this.openDialog(auction, asset)
-              });
-
-            }
+      auction.assets.forEach(asset => {
+        if (asset.coordinates) {
+          const position = [parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)];
+          const iconUrl = Constants.assetIcons.get(asset.assetType);
+          const marker = new HtmlMarker({
+            position: position,
+            htmlContent: `
+                  <div class="bg-white rounded-full p-2 m-2">
+                  <img alt="house" class="h-5 w-5" src="${iconUrl}">
+                  </div>`,
           });
+
+          this.map.markers.add(marker);
+
+          this.map.events.add('click', marker, () => {
+            marker.togglePopup();
+            console.log("Click!")
+            this.openDialog(auction, asset)
+          });
+
         }
       });
-    }
+
+    });
+
   }
 
   private openDialog(auction: Auction, asset: AuctionAsset): void {
@@ -127,26 +97,27 @@ export class AzureMapComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private centerMap() {
-    if (this.map && this.auctions && this.auctions.length > 0) {
-      const positions: data.Position[] = [];
+    if (this.map && this.auctions && this.auctions.length == 0) return;
+    const positions: data.Position[] = [];
 
-      this.auctions.forEach(auction => {
-        if (auction.assets && auction.assets.length > 0) {
-          auction.assets.forEach(asset => {
-            if (asset.coordinates) {
-              positions.push([parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)]);
-            }
-          });
+    this.auctions.forEach(auction => {
+      if (auction.assets && auction.assets.length == 0) return;
+      auction.assets.forEach(asset => {
+        if (asset.coordinates) {
+          positions.push([parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)]);
         }
       });
 
-      if (positions.length > 0) {
-        const bounds = data.BoundingBox.fromPositions(positions);
-        this.map.setCamera({
-          bounds: bounds,
-          padding: 50 // Add some padding around the bounds
-        });
-      }
-    }
+    });
+
+    if (positions.length == 0) return;
+
+    const bounds = data.BoundingBox.fromPositions(positions);
+    this.map.setCamera({
+      bounds: bounds,
+      padding: 500,
+    });
+
   }
+
 }
