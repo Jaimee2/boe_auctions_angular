@@ -4,7 +4,6 @@ import {AuctionServiceService} from "../../auction-service.service";
 import {Auction} from "../../interface/auction";
 import {JsonPipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {AzureMapComponent} from "../../component/azure-map/azure-map.component";
-import {hidden} from "ansi-colors";
 import {FilterComponent} from "../../component/filter/filter.component";
 
 @Component({
@@ -15,23 +14,22 @@ import {FilterComponent} from "../../component/filter/filter.component";
     <div class=" w-screen flex flex-col">
       <header class="p-4 bg-white text-center">
         <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Auction Map</h2>
+        <button> Filter</button>
+
       </header>
     </div>
 
     <div class="flex">
-      <div class="flex-none basis-1/6 hidden">
-        <app-filter></app-filter>
-      </div>
-
       <app-azure-map [auctions]="this.auctions"
-                     class="flex-auto h-screen pl-5"
+                     class="h-screen w-screen"
       ></app-azure-map>
-
     </div>
 
   `
 })
 export class AuctionMapsComponent implements OnInit {
+
+  protected filterOn: boolean = false;
 
   protected auctions: Auction[] = [];
   private auctionService = inject(AuctionServiceService);
@@ -42,4 +40,9 @@ export class AuctionMapsComponent implements OnInit {
       this.auctions = data
     })
   }
+
+  changeDisplayFilter() {
+    this.filterOn = !this.filterOn;
+  }
+
 }

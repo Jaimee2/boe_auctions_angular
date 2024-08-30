@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <p class="block text-xs font-medium text-gray-700">Filters</p>
+
 
     <div class="mt-1 space-y-2">
       <details
