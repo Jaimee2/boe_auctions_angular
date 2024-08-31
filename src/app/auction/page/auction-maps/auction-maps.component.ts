@@ -5,16 +5,19 @@ import {Auction} from "../../interface/auction";
 import {JsonPipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {AzureMapComponent} from "../../component/azure-map/azure-map.component";
 import {FilterComponent} from "../../component/filter/filter.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   standalone: true,
-  imports: [JsonPipe, AzureMapComponent, NgClass, NgIf, NgStyle, FilterComponent],
+  imports: [JsonPipe, AzureMapComponent, NgClass, NgIf, NgStyle, FilterComponent, RouterLink],
   template: `
 
     <div class="h-svh w-svw">
       <div id="div1" class="">
         <header class="bg-white text-center h-full">
-          <h2 class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2">
+          <h2 class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2"
+              [routerLink]="''"
+          >
             Auction Map
           </h2>
 

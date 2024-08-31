@@ -75,7 +75,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
           const marker = new HtmlMarker({
             position: position,
             htmlContent: `
-                  <div class="bg-white rounded-full p-2 m-2">
+                  <div class="bg-rose-300 rounded-full p-2 m-2">
                   <img alt="house" class="h-5 w-5" src="${iconUrl}">
                   </div>`,
           });

@@ -12,7 +12,7 @@ import {Constants} from "../../constants";
 
     <div class="max-w-sm mx-auto p-6 text-center">
       <div class="flex justify-center items-center mb-4">
-        <div class="bg-white rounded-full p-2">
+        <div class="bg-rose-300 rounded-full p-2">
           <img [src]="getIconByAssetType(data[1].assetType)" alt="" class="h-8 w-8">
         </div>
       </div>
@@ -38,10 +38,18 @@ import {Constants} from "../../constants";
         </div>
       </div>
 
-      <button (click)="goToAssetPage()"
-              class="bg-gray-400 text-white font-bold py-2 px-4 rounded hover:bg-gray-500">
-        Go to asset page
-      </button>
+      <div class="flex flex-wrap gap-4 text-center justify-center">
+        <a (click)="goToAssetPage()"
+                class="rounded bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium py-2 px-4">
+          See more
+        </a>
+        <a (click)="goToAssetPage()"
+          href="#"
+          class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+        >
+          Go to the boe page
+        </a>
+      </div>
 
     </div>
 
