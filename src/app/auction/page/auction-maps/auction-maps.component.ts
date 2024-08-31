@@ -14,7 +14,7 @@ import {FilterComponent} from "../../component/filter/filter.component";
     <div class="h-svh w-svw">
       <div id="div1" class="">
         <header class="bg-white text-center h-full">
-          <h2 class="text-xl sm:text-4xl font-bold text-gray-900 pt-2">
+          <h2 class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2">
             Auction Map
           </h2>
 
