@@ -16,7 +16,7 @@ import {RouterLink} from "@angular/router";
       >
         <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right bg-white rounded p-10"
         >
-          <h1 class="text-3xl font-extrabold sm:text-5xl">
+          <h1 class="text-3xl font-extrabold sm:text-5xl animate-bounce ">
             Let us find your
 
             <strong class="pt-1 block font-extrabold text-rose-700"> Best bid. </strong>
@@ -34,12 +34,12 @@ import {RouterLink} from "@angular/router";
               Get Started
             </a>
 
-            <a
-              href="#"
-              class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
-            >
-              Learn More
-            </a>
+<!--            <a-->
+<!--              href="#"-->
+<!--              class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"-->
+<!--            >-->
+<!--              Learn More-->
+<!--            </a>-->
           </div>
         </div>
       </div>
