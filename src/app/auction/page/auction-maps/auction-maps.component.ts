@@ -12,10 +12,13 @@ import {FilterComponent} from "../../component/filter/filter.component";
   template: `
 
     <div class="h-svh w-svw">
-      <div id="div1">
+      <div id="div1" class="">
         <header class="bg-white text-center h-full">
-          <h2 class="text-xl font-bold text-gray-900 pt-3">Auction Map</h2>
-          <button class="mt-3">Filter</button>
+          <h2 class="text-xl sm:text-4xl font-bold text-gray-900 pt-2">
+            Auction Map
+          </h2>
+
+          <button class="mt-2 sm:text-2xl">Filter</button>
         </header>
       </div>
       <div id="div2">
