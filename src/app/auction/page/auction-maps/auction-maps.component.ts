@@ -11,22 +11,30 @@ import {FilterComponent} from "../../component/filter/filter.component";
   imports: [JsonPipe, AzureMapComponent, NgClass, NgIf, NgStyle, FilterComponent],
   template: `
 
-    <div class=" w-screen flex flex-col border-8">
-      <header class="p-4 bg-white text-center">
-        <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Auction Map</h2>
-        <button> Filter</button>
-
-      </header>
+    <div class="h-svh w-svw">
+      <div id="div1">
+        <header class="bg-white text-center h-full">
+          <h2 class="text-xl font-bold text-gray-900">Auction Map</h2>
+          <button>Filter</button>
+        </header>
+      </div>
+      <div id="div2">
+        <app-azure-map [auctions]="this.auctions">
+        </app-azure-map>
+      </div>
     </div>
 
-    <div class="flex border-amber-900 border-8 h-screen w-screen overflow-hidden box-border">
-      <app-azure-map
-        [auctions]="this.auctions"
-        class="h-screen w-screen border-8 border-amber-400">
-      </app-azure-map>
-    </div>
-
-  `
+  `,
+  styles: [`
+    #div1 {
+      height: 10svh;
+      width: 100svw;
+    }
+    #div2 {
+      height: 90svh;
+      width: 100svw;
+    }
+  `]
 })
 export class AuctionMapsComponent implements OnInit {
 

@@ -10,10 +10,16 @@ import {Constants} from "../../constants";
   standalone: true,
   imports: [],
   template: `
-    <div #map class=" h-full w-full border-8" id="map"></div>
+    <div #map id="map" class=""></div>
   `,
   styles: [`
 
+    #map {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
   `]
 })
 export class AzureMapComponent implements OnInit, OnChanges {
