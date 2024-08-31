@@ -1,13 +1,14 @@
 import {Component, Inject} from '@angular/core';
 import {Auction, AuctionAsset} from "../../interface/auction";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {DatePipe} from "@angular/common";
+import {DatePipe, DecimalPipe} from "@angular/common";
 import {Constants} from "../../constants";
+import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
 
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, DecimalPipe, DateDifferencePipe],
   template: `
 
     <div class="max-w-sm mx-auto p-6 text-center">
@@ -27,15 +28,13 @@ import {Constants} from "../../constants";
       <p><strong>Lots:</strong> {{ data[0].lots }}</p>
 
       <p><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
-      <p><strong>Minimum Bid:</strong> {{ data[0].minimumBid }}</p>
+
       <p><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
       <p><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
 
       <div class="max-w-lg mx-auto p-4">
-        <div class="flex space-x-20 mb-2">
-          <span class="text-sm font-medium ">{{ this.startDate | date }}</span>
-          <span class="text-sm font-medium">{{ this.endDate |date }}</span>
-        </div>
+
+        <span class="text-sm font-medium">{{ Date() | dateDifference:this.endDate! }}</span>
       </div>
 
       <div class="flex flex-wrap gap-4 text-center justify-center">
@@ -82,4 +81,5 @@ export class DialogComponent {
     return Constants.assetIcons.get(assetType);
   }
 
+  protected readonly Date = Date;
 }
