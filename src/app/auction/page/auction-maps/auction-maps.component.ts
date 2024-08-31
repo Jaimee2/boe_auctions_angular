@@ -11,7 +11,7 @@ import {FilterComponent} from "../../component/filter/filter.component";
   imports: [JsonPipe, AzureMapComponent, NgClass, NgIf, NgStyle, FilterComponent],
   template: `
 
-    <div class=" w-screen flex flex-col">
+    <div class=" w-screen flex flex-col border-8">
       <header class="p-4 bg-white text-center">
         <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Auction Map</h2>
         <button> Filter</button>
@@ -19,10 +19,11 @@ import {FilterComponent} from "../../component/filter/filter.component";
       </header>
     </div>
 
-    <div class="flex">
-      <app-azure-map [auctions]="this.auctions"
-                     class="h-screen w-screen"
-      ></app-azure-map>
+    <div class="flex border-amber-900 border-8 h-screen w-screen overflow-hidden box-border">
+      <app-azure-map
+        [auctions]="this.auctions"
+        class="h-screen w-screen border-8 border-amber-400">
+      </app-azure-map>
     </div>
 
   `

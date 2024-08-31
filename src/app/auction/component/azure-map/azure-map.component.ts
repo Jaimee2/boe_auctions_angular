@@ -10,7 +10,7 @@ import {Constants} from "../../constants";
   standalone: true,
   imports: [],
   template: `
-    <div #map class=" h-full w-full" id="map"></div>
+    <div #map class=" h-full w-full border-8" id="map"></div>
   `,
   styles: [`
 
@@ -115,7 +115,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
     const bounds = data.BoundingBox.fromPositions(positions);
     this.map.setCamera({
       bounds: bounds,
-      padding: 500,
+
     });
 
   }
