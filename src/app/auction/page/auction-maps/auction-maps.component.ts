@@ -14,8 +14,8 @@ import {FilterComponent} from "../../component/filter/filter.component";
     <div class="h-svh w-svw">
       <div id="div1">
         <header class="bg-white text-center h-full">
-          <h2 class="text-xl font-bold text-gray-900">Auction Map</h2>
-          <button>Filter</button>
+          <h2 class="text-xl font-bold text-gray-900 pt-3">Auction Map</h2>
+          <button class="mt-3">Filter</button>
         </header>
       </div>
       <div id="div2">

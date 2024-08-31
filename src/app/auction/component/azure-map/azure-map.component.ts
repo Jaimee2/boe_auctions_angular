@@ -121,7 +121,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
     const bounds = data.BoundingBox.fromPositions(positions);
     this.map.setCamera({
       bounds: bounds,
-
+      padding: 50
     });
 
   }
