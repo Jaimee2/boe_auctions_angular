@@ -32,14 +32,14 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
       <p><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
       <p><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
 
-      <div class="max-w-lg mx-auto p-4">
+      <div class="max-w-lg mx-auto p-3">
 
         <span class="text-sm font-medium">{{ Date() | dateDifference:this.endDate! }}</span>
       </div>
 
       <div class="flex flex-wrap gap-4 text-center justify-center">
         <a (click)="goToAssetPage()"
-                class="rounded bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium py-2 px-4">
+                class="rounded bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium py-3 px-4">
           See more
         </a>
         <a (click)="goToAssetPage()"
