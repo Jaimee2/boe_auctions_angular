@@ -16,17 +16,12 @@ export class DateDifferencePipe implements PipeTransform {
     const diffInHours = Math.floor(diffInMinutes / 60);
     const diffInDays = Math.floor(diffInHours / 24);
 
-    if (diffInDays > 0) {
-      return `${diffInDays} days remaining to end`;
-    } else if (diffInHours > 0) {
-      return `${diffInHours} hours remaining to end`;
-    } else if (diffInMinutes > 0) {
-      return `${diffInMinutes} minutes remaining to end`;
-    } else if (diffInSeconds > 0) {
-      return `${diffInSeconds} seconds remaining to end`;
-    } else {
-      return 'the auction ended :(';
-    }
+    if (diffInDays > 0) return `${diffInDays} days remaining to end`;
+    else if (diffInHours > 0) return `${diffInHours} hours remaining to end`;
+    else if (diffInMinutes > 0) return `${diffInMinutes} minutes remaining to end`;
+    else if (diffInSeconds > 0) return `${diffInSeconds} seconds remaining to end`;
+    else return 'the auction ended :(';
+
   }
 
 }

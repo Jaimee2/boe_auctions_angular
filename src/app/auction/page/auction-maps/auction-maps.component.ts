@@ -6,6 +6,8 @@ import {JsonPipe, NgClass, NgIf, NgStyle} from "@angular/common";
 import {AzureMapComponent} from "../../component/azure-map/azure-map.component";
 import {FilterComponent} from "../../component/filter/filter.component";
 import {RouterLink} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {FilterDialogComponent} from "../../component/dialog/filter-dialog.component";
 
 @Component({
   standalone: true,
@@ -21,7 +23,7 @@ import {RouterLink} from "@angular/router";
             Auction Map
           </h2>
 
-          <button class="mt-2 sm:text-2xl">Filter</button>
+          <button (click)="this.openFilterDialog()" class="mt-2 sm:text-2xl">Filter</button>
         </header>
       </div>
       <div id="div2">
@@ -36,6 +38,7 @@ import {RouterLink} from "@angular/router";
       height: 10svh;
       width: 100svw;
     }
+
     #div2 {
       height: 90svh;
       width: 100svw;
@@ -44,11 +47,9 @@ import {RouterLink} from "@angular/router";
 })
 export class AuctionMapsComponent implements OnInit {
 
-  protected filterOn: boolean = false;
-
   protected auctions: Auction[] = [];
   private auctionService = inject(AuctionServiceService);
-
+  private dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.auctionService.getAuctions().subscribe(data => {
@@ -56,8 +57,11 @@ export class AuctionMapsComponent implements OnInit {
     })
   }
 
-  changeDisplayFilter() {
-    this.filterOn = !this.filterOn;
+  protected openFilterDialog(): void {
+    this.dialog.open(FilterDialogComponent, {
+      width: '600px',
+      height: '600px'
+    })
   }
 
 }

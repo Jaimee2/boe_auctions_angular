@@ -1,7 +1,7 @@
 import {Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {AuthenticationType, data, HtmlMarker, Map as AzureMap} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
-import {DialogComponent} from "../dialog/dialog.component";
+import {AuctionDialogComponent} from "../dialog/auction-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Constants} from "../../constants";
 
@@ -96,7 +96,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
   }
 
   private openDialog(auction: Auction, asset: AuctionAsset): void {
-    this.dialog.open(DialogComponent, {
+    this.dialog.open(AuctionDialogComponent, {
       width: '400px',
       data: [auction, asset]
     });

@@ -55,7 +55,7 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
   `,
   styles: [``]
 })
-export class DialogComponent {
+export class AuctionDialogComponent {
 
   protected startDate?: Date;
   protected endDate?: Date;
