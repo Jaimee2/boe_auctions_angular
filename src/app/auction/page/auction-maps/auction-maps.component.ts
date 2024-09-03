@@ -4,7 +4,6 @@ import {AuctionServiceService} from "../../auction-service.service";
 import {Auction} from "../../interface/auction";
 import {JsonPipe, NgClass, NgStyle} from "@angular/common";
 import {AzureMapComponent} from "../../component/azure-map/azure-map.component";
-import {FilterComponent} from "../../component/filter/filter.component";
 import {RouterLink} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {FilterDialogComponent} from "../../component/dialog/filter-dialog.component";
@@ -12,16 +11,15 @@ import {LoadingSpinnerComponent} from "../../../core/loading-spinner/loading-spi
 
 @Component({
   standalone: true,
-  imports: [JsonPipe, AzureMapComponent, NgClass, NgStyle, FilterComponent, RouterLink, LoadingSpinnerComponent],
+  imports: [JsonPipe, AzureMapComponent, NgClass, NgStyle, RouterLink, LoadingSpinnerComponent],
   template: `
-
     <div class="h-svh w-svw">
       <div class="" id="div1">
         <header class="bg-white text-center h-full">
-          <h2 [routerLink]="''"
-              class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2"
+          <h2
+            class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2"
           >
-            Auction Map
+            <button routerLink=""> Auction Map</button>
           </h2>
           <button (click)="this.openFilterDialog()"
                   class="mt-2 sm:text-2xl">
@@ -34,19 +32,17 @@ import {LoadingSpinnerComponent} from "../../../core/loading-spinner/loading-spi
         <app-loading-spinner></app-loading-spinner>
       } @else {
         <div id="div2">
-          <app-azure-map [auctions]="this.auctions">
-          </app-azure-map>
+          <app-azure-map [auctions]="this.auctions"></app-azure-map>
         </div>
       }
-
     </div>
-
   `,
   styles: [`
     #div1 {
       height: 10svh;
       width: 100svw;
     }
+
     #div2 {
       height: 90svh;
       width: 100svw;
@@ -61,17 +57,28 @@ export class AuctionMapsComponent implements OnInit {
   private dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    this.auctionService.getAuctions().subscribe(data => {
-      this.auctions = data;
-      this.isLoaded = true;
-    })
+    this.fetchAuctions();
   }
 
   protected openFilterDialog(): void {
-    this.dialog.open(FilterDialogComponent, {
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
       width: '600px',
       height: '600px'
-    })
+    });
+
+    dialogRef.componentInstance.filter.subscribe((filters: any) => {
+      console.log(filters);
+      this.fetchAuctions(filters);
+      dialogRef.close();
+    });
+  }
+
+  private fetchAuctions(filters?: any): void {
+    this.isLoaded = false;
+    this.auctionService.getAuctions(filters).subscribe(data => {
+      this.auctions = data;
+      this.isLoaded = true;
+    });
   }
 
 }

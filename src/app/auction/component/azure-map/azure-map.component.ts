@@ -1,9 +1,10 @@
-import {Component, ElementRef, inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {AuthenticationType, data, HtmlMarker, Map as AzureMap} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
 import {AuctionDialogComponent} from "../dialog/auction-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Constants} from "../../constants";
+import * as console from "node:console";
 
 @Component({
   selector: 'app-azure-map',
@@ -22,17 +23,28 @@ import {Constants} from "../../constants";
     }
   `]
 })
-export class AzureMapComponent implements OnInit {
+export class AzureMapComponent implements OnInit, OnChanges {
   @ViewChild('map', {static: true}) mapContainer!: ElementRef;
   @Input() auctions!: Auction[];
   private map!: AzureMap;
   private dialog = inject(MatDialog);
 
   ngOnInit() {
-    console.log("hi ngOnInint")
     this.initializeMap();
     this.addMarkers();
     this.centerMap();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.map) {
+      this.clearMarkers();
+      this.addMarkers();
+      this.centerMap();
+    }
+  }
+
+  private clearMarkers() {
+    this.map.markers.clear(); // Clear all markers from the map
   }
 
   private initializeMap() {
@@ -75,13 +87,10 @@ export class AzureMapComponent implements OnInit {
 
           this.map.events.add('click', marker, () => {
             marker.togglePopup();
-            console.log("Click!")
             this.openDialog(auction, asset)
           });
-
         }
       });
-
     });
 
   }

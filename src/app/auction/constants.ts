@@ -6,5 +6,11 @@ export class Constants {
     ['Nave industrial', 'assets/img/warehouse.png'],
     ['Local comercial', 'assets/img/store.png'],
   ]);
+}
 
+export enum AssetType {
+  Garaje = 'Garaje',
+  Vivienda = 'Vivienda',
+  LocalComercial = 'Local Comercial',
+  NaveIndustrial = 'Nave Industrial',
 }
