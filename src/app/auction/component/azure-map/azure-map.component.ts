@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, Input, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationType, data, HtmlMarker, Map as AzureMap} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
 import {AuctionDialogComponent} from "../dialog/auction-dialog.component";
@@ -22,26 +22,17 @@ import {Constants} from "../../constants";
     }
   `]
 })
-export class AzureMapComponent implements OnInit, OnChanges {
+export class AzureMapComponent implements OnInit {
   @ViewChild('map', {static: true}) mapContainer!: ElementRef;
   @Input() auctions!: Auction[];
   private map!: AzureMap;
   private dialog = inject(MatDialog);
 
-  constructor() {
-  }
-
   ngOnInit() {
+    console.log("hi ngOnInint")
     this.initializeMap();
-
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log("this changed !! ")
-    if (changes['auctions']) {
-      this.addMarkers();
-      this.centerMap();
-    }
+    this.addMarkers();
+    this.centerMap();
   }
 
   private initializeMap() {
