@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {AuctionMapsComponent} from "./auction/page/auction-maps/auction-maps.component";
 import {LandingPageComponent} from "./landing/page/landing-page/landing-page.component";
 
 export const routes: Routes = [
@@ -9,7 +8,8 @@ export const routes: Routes = [
   },
   {
     path: 'map',
-    component: AuctionMapsComponent
+    loadChildren: () => import("./auction/auction.routes")
+      .then(a => a.auctionRoutes)
   },
   {
     path: '**',
