@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
+import {AssetType} from "../../constants";
 
 @Component({
   selector: 'app-filter-dialog',
@@ -65,7 +66,7 @@ export class FilterDialogComponent {
   @Output() filter = new EventEmitter<any>();
 
   filterForm: FormGroup;
-  assetTypes = ['Garaje', 'Vivienda', 'Local Comercial', 'Nave Industrial'];
+  assetTypes = AssetType;
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({

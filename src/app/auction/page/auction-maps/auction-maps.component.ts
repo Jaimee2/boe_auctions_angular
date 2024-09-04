@@ -19,7 +19,7 @@ import {LoadingSpinnerComponent} from "../../../core/loading-spinner/loading-spi
           <h2
             class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2"
           >
-            <button routerLink=""> Auction Map</button>
+            <button routerLink=""> Auction Map </button>
           </h2>
           <button (click)="this.openFilterDialog()"
                   class="mt-2 sm:text-2xl">
