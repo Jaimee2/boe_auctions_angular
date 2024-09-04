@@ -33,7 +33,7 @@ import {AssetType} from "../../constants";
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </span>
           </summary>
@@ -62,11 +62,10 @@ import {AssetType} from "../../constants";
   styles: [``]
 })
 export class FilterDialogComponent {
-
   @Output() filter = new EventEmitter<any>();
 
   filterForm: FormGroup;
-  assetTypes = AssetType;
+  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial];
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
