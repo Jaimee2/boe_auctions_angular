@@ -3,11 +3,8 @@ import {RouterLink} from "@angular/router";
 
 @Component({
   standalone: true,
-  imports: [
-    RouterLink
-  ],
+  imports: [RouterLink],
   template: `
-
 
     <section class="relative bg-[url('assets/img/img.png')] bg-cover bg-center h-full w-full">
 
@@ -33,19 +30,12 @@ import {RouterLink} from "@angular/router";
             >
               Get Started
             </a>
-
-<!--            <a-->
-<!--              href="#"-->
-<!--              class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"-->
-<!--            >-->
-<!--              Learn More-->
-<!--            </a>-->
           </div>
         </div>
       </div>
     </section>
   `,
-  styles: ``
+  styles: [``]
 })
 export class LandingPageComponent {
 
