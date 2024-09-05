@@ -27,10 +27,18 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
-              "node_modules/azure-maps-control/dist/atlas.min.css"
+              {
+                "input": "node_modules/azure-maps-control/dist/atlas.min.css",
+                "inject": false,
+                "bundleName": "azure-map"
+              }
             ],
             "scripts": [
-              "node_modules/azure-maps-control/dist/atlas.min.js"
+              {
+                "input": "node_modules/azure-maps-control/dist/atlas.min.js",
+                "inject": false,
+                "bundleName": "azure-map"
+              }
             ]
           },
           "configurations": {

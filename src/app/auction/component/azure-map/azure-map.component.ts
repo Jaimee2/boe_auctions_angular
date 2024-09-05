@@ -4,7 +4,6 @@ import {Auction, AuctionAsset} from '../../interface/auction';
 import {AuctionDialogComponent} from "../dialog/auction-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Constants} from "../../constants";
-import * as console from "node:console";
 
 @Component({
   selector: 'app-azure-map',
