@@ -34,7 +34,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
     this.centerMap();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.map) {
       this.clearMarkers();
       this.addMarkers();
