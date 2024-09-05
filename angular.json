@@ -29,15 +29,15 @@
               "src/styles.css",
               {
                 "input": "node_modules/azure-maps-control/dist/atlas.min.css",
-                "inject": false,
+                "inject": true,
                 "bundleName": "azure-map"
               }
             ],
             "scripts": [
               {
                 "input": "node_modules/azure-maps-control/dist/atlas.min.js",
-                "inject": false,
-                "bundleName": "azure-map"
+                "inject": true,
+                "bundleName": "azure-map-js"
               }
             ]
           },
