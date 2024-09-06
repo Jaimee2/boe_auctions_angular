@@ -8,23 +8,29 @@ import {AssetType} from "../../constants";
   standalone: true,
   imports: [ReactiveFormsModule, NgForOf],
   template: `
-    <div class="m-6 space-y-2">
-      <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
-        <div class="p-2 m-2">
-          <label for="province" class="block font-medium text-gray-700 text-center">Province</label>
-          <input
-            type="text"
-            id="province"
-            formControlName="province"
-            placeholder="Example: Madrid"
-            class="p-2 mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
-          />
-        </div>
 
-        <details class="mx-2 overflow-hidden rounded border border-gray-300">
-          <summary class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition">
-            <span class="text-sm font-medium">Asset Type</span>
-            <span class="transition group-open:-rotate-180">
+    <form (ngSubmit)="applyFilter()" [formGroup]="filterForm" class="h-full m-2">
+      <div class="flex flex-col h-full m-2">
+
+        <label class="flex-none my-4 block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm
+                focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+               for="UserEmail"
+        >
+          <span class="text-xs font-medium text-gray-700"> Province </span>
+          <input
+            class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+            formControlName="province"
+            id="province"
+            placeholder="Example: Madrid"
+            type="text"
+          />
+        </label>
+
+        <div class="flex-grow">
+          <details class="overflow-hidden rounded border" open>
+            <summary class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition">
+              <span class="text-sm font-medium">Asset Type</span>
+              <span class="transition group-open:-rotate-180">
               <svg
                 class="size-4"
                 fill="none"
@@ -36,28 +42,32 @@ import {AssetType} from "../../constants";
                 <path d="M19.5 8.25l-7.5 7.5-7.5-7.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </span>
-          </summary>
-          <div class="border-t border-gray-200 bg-white">
-            <ul class="space-y-1 border-t border-gray-200 p-4">
-              <li *ngFor="let type of assetTypes">
-                <label class="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    formControlName="{{type}}"
-                    class="size-5 rounded border-gray-300"
-                  />
-                  <span class="text-sm font-medium text-gray-700">{{ type }}</span>
-                </label>
-              </li>
-            </ul>
-          </div>
-        </details>
-
-        <div class="p-2 justify-end">
-          <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">Apply Filter</button>
+            </summary>
+            <div class="border-t border-gray-200 bg-white">
+              <ul class="space-y-1 border-t border-gray-200 p-4">
+                <li *ngFor="let type of assetTypes">
+                  <label class="inline-flex items-center gap-2">
+                    <input
+                      class="size-5 rounded accent-rose-300 border-gray-300"
+                      formControlName="{{ type }}"
+                      type="checkbox"
+                    />
+                    <span class="text-sm font-medium text-gray-700">{{ type }}</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </details>
         </div>
-      </form>
-    </div>
+
+        <div class="m-2">
+          <button class="w-full rounded bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium py-3 px-4"
+                  type="submit"
+          >Apply Filter
+          </button>
+        </div>
+      </div>
+    </form>
   `,
   styles: [``]
 })
@@ -69,8 +79,7 @@ export class FilterDialogComponent {
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
-      province: ['Madrid'],
-      Garaje: [true],
+      province: ['Madrid'], Garaje: [true],
       Vivienda: [true],
       'Local comercial': [true],
       'Nave industrial': [true]

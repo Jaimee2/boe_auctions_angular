@@ -62,8 +62,8 @@ export class AuctionMapsComponent implements OnInit {
 
   protected openFilterDialog(): void {
     const dialogRef = this.dialog.open(FilterDialogComponent, {
-      width: '600px',
-      height: '600px'
+      width: '50vh',
+      height: '60vh'
     });
 
     dialogRef.componentInstance.filter.subscribe((filters: any) => {

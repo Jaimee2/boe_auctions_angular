@@ -97,6 +97,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
   private openDialog(auction: Auction, asset: AuctionAsset): void {
     this.dialog.open(AuctionDialogComponent, {
       width: '400px',
+      height: ' ',
       data: [auction, asset]
     });
   }
