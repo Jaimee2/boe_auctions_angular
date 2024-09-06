@@ -11,6 +11,6 @@ export class Constants {
 export enum AssetType {
   Garaje = 'Garaje',
   Vivienda = 'Vivienda',
-  LocalComercial = 'Local Comercial',
-  NaveIndustrial = 'Nave Industrial',
+  LocalComercial = 'Local comercial',
+  NaveIndustrial = 'Nave industrial',
 }
