@@ -21,7 +21,7 @@ import {AssetType} from "../../constants";
           />
         </div>
 
-        <details class="overflow-hidden rounded border border-gray-300">
+        <details class="mx-2 overflow-hidden rounded border border-gray-300">
           <summary class="flex cursor-pointer items-center justify-between gap-2 p-4 text-gray-900 transition">
             <span class="text-sm font-medium">Asset Type</span>
             <span class="transition group-open:-rotate-180">
@@ -69,11 +69,11 @@ export class FilterDialogComponent {
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
-      province: [''],
+      province: ['Madrid'],
       Garaje: [true],
       Vivienda: [true],
-      'Local Comercial': [true],
-      'Nave Industrial': [true]
+      'Local comercial': [true],
+      'Nave industrial': [true]
     });
   }
 

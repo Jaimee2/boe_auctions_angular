@@ -18,6 +18,7 @@ export class AuctionServiceService {
   getAuctions(filters?: any): Observable<Auction[]> {
     let params = new HttpParams();
     if (filters) {
+      console.log(filters)
       if (filters.province) params = params.set('province', filters.province);
       this.assetTypes.forEach(type => {
         if (filters[type]) params = params.append('assetType', type);
