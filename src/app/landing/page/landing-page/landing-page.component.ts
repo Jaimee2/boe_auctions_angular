@@ -6,7 +6,7 @@ import {RouterLink} from "@angular/router";
   imports: [RouterLink],
   template: `
 
-    <section class="relative bg-[url('assets/img/img.png')] bg-cover bg-center h-full w-full">
+    <section class="relative bg-[url('assets/img/landing-page.png')] bg-cover bg-center h-full w-full">
 
       <div
         class="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8"
