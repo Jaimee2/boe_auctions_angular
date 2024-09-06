@@ -133,7 +133,7 @@ export class FilterDialogComponent {
   @Output() filter = new EventEmitter<any>();
 
   filterForm: FormGroup;
-  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial, AssetType.Solar, AssetType.FincaRustica];
+  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial, AssetType.Solar, AssetType.FincaRustica, AssetType.Trastero];
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
@@ -142,7 +142,8 @@ export class FilterDialogComponent {
       'Local comercial': [true],
       'Nave industrial': [true],
       'Solar': [true],
-      'Finca rústica': [true]
+      'Finca rústica': [true],
+      'Trastero': [true],
     });
   }
 

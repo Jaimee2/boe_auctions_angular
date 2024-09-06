@@ -9,7 +9,7 @@ import {AssetType} from "./constants";
 })
 export class AuctionServiceService {
 
-  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial, AssetType.Solar, AssetType.FincaRustica];
+  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial, AssetType.Solar, AssetType.FincaRustica, AssetType.Trastero];
 
   private apiUrl = 'https://azure-function-boe-auction.azurewebsites.net/api';
 
