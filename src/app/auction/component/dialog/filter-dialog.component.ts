@@ -79,7 +79,7 @@ export class FilterDialogComponent {
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
-      province: ['Madrid'], Garaje: [true],
+      province: [''], Garaje: [true],
       Vivienda: [true],
       'Local comercial': [true],
       'Nave industrial': [true]
