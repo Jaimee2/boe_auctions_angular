@@ -1,30 +1,54 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import {Component, EventEmitter, HostListener, Output} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {NgForOf, NgIf} from "@angular/common";
 import {AssetType} from "../../constants";
 
 @Component({
   selector: 'app-filter-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, NgForOf],
+  imports: [ReactiveFormsModule, NgForOf, NgIf],
   template: `
 
     <form (ngSubmit)="applyFilter()" [formGroup]="filterForm" class="h-full m-2">
       <div class="flex flex-col h-full m-2">
 
-        <label class="flex-none my-4 block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm
+        <!-- Autocomplete Province Field -->
+        <div class="relative autocomplete-container">
+          <label
+            class="flex-none my-4 block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm
                 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
-               for="UserEmail"
-        >
-          <span class="text-xs font-medium text-gray-700"> Province </span>
-          <input
-            class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-            formControlName="province"
-            id="province"
-            placeholder="Example: Madrid"
-            type="text"
-          />
-        </label>
+            for="province"
+          >
+            <span class="text-xs font-medium text-gray-700"> Province </span>
+            <input
+              class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm
+          {{ filterForm.get('province')?.invalid && filterForm.get('province')?.touched ? 'border-red-500' : '' }}"
+              formControlName="province"
+              id="province"
+              placeholder="Example: Madrid"
+              type="text"
+              autocomplete="off"
+            />
+          </label>
+          <ul
+            *ngIf="filteredProvinces.length > 0"
+            class="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto"
+          >
+            <li
+              *ngFor="let option of filteredProvinces"
+              (click)="selectProvince(option)"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+            >
+              {{ option }}
+            </li>
+          </ul>
+        </div>
+        <!-- Validation Error Message -->
+        <div *ngIf="filterForm.get('province')?.invalid && filterForm.get('province')?.touched">
+          <p class="text-red-500 text-sm mb-2 ml-2">
+            The province entered is not valid.
+          </p>
+        </div>
 
         <div class="flex-grow">
           <details class="overflow-hidden rounded border" open>
@@ -44,6 +68,16 @@ import {AssetType} from "../../constants";
             </span>
             </summary>
             <div class="border-t border-gray-200 bg-white">
+              <!-- Add Select All / Unselect All Buttons -->
+              <div class="flex p-4">
+                <button type="button" class="text-sm text-blue-600 hover:underline mr-4"
+                        (click)="selectAllAssetTypes()">
+                  Select All
+                </button>
+                <button type="button" class="text-sm text-blue-600 hover:underline" (click)="unselectAllAssetTypes()">
+                  Unselect All
+                </button>
+              </div>
               <ul class="space-y-1 border-t border-gray-200 p-4">
                 <li *ngFor="let type of assetTypes">
                   <label class="inline-flex items-center gap-2">
@@ -131,13 +165,73 @@ import {AssetType} from "../../constants";
 })
 export class FilterDialogComponent {
   @Output() filter = new EventEmitter<any>();
-
   filterForm: FormGroup;
-  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial, AssetType.Solar, AssetType.FincaRustica, AssetType.Trastero];
+
+  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial,
+    AssetType.Solar, AssetType.FincaRustica, AssetType.Trastero
+  ];
+
+  provinces: string[] = [
+    'Araba/Álava',
+    'Albacete',
+    'Alicante/Alacant',
+    'Almería',
+    'Ávila',
+    'Badajoz',
+    'Illes Balears',
+    'Barcelona',
+    'Burgos',
+    'Cáceres',
+    'Cádiz',
+    'Castellón/Castelló',
+    'Ciudad Real',
+    'Córdoba',
+    'A Coruña',
+    'Cuenca',
+    'Girona',
+    'Granada',
+    'Guadalajara',
+    'Gipuzkoa',
+    'Huelva',
+    'Huesca',
+    'Jaén',
+    'León',
+    'Lleida',
+    'La Rioja',
+    'Lugo',
+    'Madrid',
+    'Málaga',
+    'Murcia',
+    'Navarra',
+    'Ourense',
+    'Asturias',
+    'Palencia',
+    'Las Palmas',
+    'Pontevedra',
+    'Salamanca',
+    'Santa Cruz de Tenerife',
+    'Cantabria',
+    'Segovia',
+    'Sevilla',
+    'Soria',
+    'Tarragona',
+    'Teruel',
+    'Toledo',
+    'Valencia/València',
+    'Valladolid',
+    'Bizkaia',
+    'Zamora',
+    'Zaragoza',
+    'Ceuta',
+    'Melilla',
+  ];
+
+  filteredProvinces: string[] = [];
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
-      province: [], Garaje: [true],
+      province: ['', this.provinceValidator.bind(this)],
+      Garaje: [true],
       Vivienda: [true],
       'Local comercial': [true],
       'Nave industrial': [true],
@@ -145,10 +239,61 @@ export class FilterDialogComponent {
       'Finca rústica': [true],
       'Trastero': [true],
     });
+
+    this.filterForm.get('province')!.valueChanges.subscribe((value) => {
+      this.filteredProvinces = this._filterProvinces(value || '');
+      this.filterForm.get('province')!.updateValueAndValidity({onlySelf: true, emitEvent: false});
+    });
+  }
+
+// Method to select all asset types
+  selectAllAssetTypes() {
+    this.assetTypes.forEach((type) => {
+      this.filterForm.get(type)?.setValue(true);
+    });
+  }
+
+  // Method to unselect all asset types
+  unselectAllAssetTypes() {
+    this.assetTypes.forEach((type) => {
+      this.filterForm.get(type)?.setValue(false);
+    });
+  }
+
+  selectProvince(option: string) {
+    this.filterForm.get('province')!.setValue(option);
+    this.filteredProvinces = [];
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.autocomplete-container')) {
+      this.filteredProvinces = [];
+    }
   }
 
   applyFilter() {
+    if (this.filterForm.invalid) {
+      this.filterForm.markAllAsTouched();
+      return;
+    }
     this.filter.emit(this.filterForm.value);
   }
 
+  provinceValidator(control: AbstractControl): { [key: string]: any } | null {
+    const value = control.value;
+    if (!value) return null;
+    if (this.provinces.includes(value)) return null;
+
+    // Otherwise, return validation error
+    return {invalidProvince: true};
+  }
+
+  private _filterProvinces(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.provinces.filter((province) =>
+      province.toLowerCase().includes(filterValue)
+    );
+  }
 }
