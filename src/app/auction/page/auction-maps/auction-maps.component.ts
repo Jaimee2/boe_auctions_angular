@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 
-import {AuctionServiceService} from "../../auction-service.service";
-import {Auction} from "../../interface/auction";
+import {AssetService} from "../../asset.service";
+import {Auction, AuctionAsset} from "../../interface/auction";
 import {JsonPipe, NgClass, NgStyle} from "@angular/common";
 import {AzureMapComponent} from "../../component/azure-map/azure-map.component";
 import {RouterLink} from "@angular/router";
@@ -19,7 +19,7 @@ import {LoadingSpinnerComponent} from "../../../core/loading-spinner/loading-spi
           <h2
             class="text-xl sm:text-4xl font-extrabold text-rose-700 pt-2"
           >
-            <button routerLink=""> Auction Map </button>
+            <button routerLink=""> Auction Map</button>
           </h2>
           <button (click)="this.openFilterDialog()"
                   class="mt-2 sm:text-2xl">
@@ -32,7 +32,7 @@ import {LoadingSpinnerComponent} from "../../../core/loading-spinner/loading-spi
         <app-loading-spinner></app-loading-spinner>
       } @else {
         <div id="div2">
-          <app-azure-map [auctions]="this.auctions"></app-azure-map>
+          <app-azure-map [auctionAssets]="this.assets"></app-azure-map>
         </div>
       }
     </div>
@@ -52,8 +52,8 @@ import {LoadingSpinnerComponent} from "../../../core/loading-spinner/loading-spi
 export class AuctionMapsComponent implements OnInit {
 
   isLoaded: boolean = false;
-  protected auctions: Auction[] = [];
-  private auctionService = inject(AuctionServiceService);
+  protected assets: AuctionAsset[] = [];
+  private auctionService = inject(AssetService);
   private dialog = inject(MatDialog);
 
   ngOnInit(): void {
@@ -75,8 +75,8 @@ export class AuctionMapsComponent implements OnInit {
 
   private fetchAuctions(filters?: any): void {
     this.isLoaded = false;
-    this.auctionService.getAuctions(filters).subscribe(data => {
-      this.auctions = data;
+    this.auctionService.getAsset(filters).subscribe(data => {
+      this.assets = data;
       this.isLoaded = true;
     });
   }
