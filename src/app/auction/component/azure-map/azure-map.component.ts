@@ -1,9 +1,14 @@
-import {Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {AuthenticationType, data, HtmlMarker, Map as AzureMap} from 'azure-maps-control';
+import {Component, ElementRef, inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import atlas, {AuthenticationType, data, Map as AzureMap} from 'azure-maps-control';
 import {Auction, AuctionAsset} from '../../interface/auction';
 import {AuctionDialogComponent} from "../dialog/auction-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Constants} from "../../constants";
+import DataSource = atlas.source.DataSource;
+import SymbolLayer = atlas.layer.SymbolLayer;
+import Point = atlas.data.Point;
+import Feature = atlas.data.Feature;
+
 
 @Component({
   selector: 'app-azure-map',
@@ -13,7 +18,6 @@ import {Constants} from "../../constants";
     <div #map id="map" class=""></div>
   `,
   styles: [`
-
     #map {
       width: 100%;
       height: 100%;
@@ -43,7 +47,9 @@ export class AzureMapComponent implements OnInit, OnChanges {
   }
 
   private clearMarkers() {
-    this.map.markers.clear(); // Clear all markers from the map
+    // Remove existing sources and layers
+    this.map.sources.clear();
+    this.map.layers.clear();
   }
 
   private initializeMap() {
@@ -58,40 +64,74 @@ export class AzureMapComponent implements OnInit, OnChanges {
       }
     });
 
-    this.map.events.add('ready', () => {
-      this.addMarkers();
-      this.centerMap();
-    });
   }
 
   private addMarkers() {
-    if (this.map && this.auctions && this.auctions.length == 0) return;
+    // Wait until the map resources are ready.
+    this.map.events.add('ready', () => {
+      // Add custom icons to the map's image sprite
 
-    this.auctions.forEach(auction => {
-      if (auction.assets && auction.assets.length == 0) return;
+      // @ts-ignore
+      const iconPromises = [];
 
-      auction.assets.forEach(asset => {
-        if (asset.coordinates) {
-          const position = [parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)];
-          const iconUrl = Constants.assetIcons.get(asset.assetType);
-          const marker = new HtmlMarker({
-            position: position,
-            htmlContent: `
-                  <div class="bg-rose-300 rounded-full p-1 m-1">
-                  <img alt="house" class="h-5 w-5" src="${iconUrl}">
-                  </div>`,
+      Constants.assetIcons.forEach((iconUrl, iconKey) => {
+        iconPromises.push(this.map.imageSprite.add(iconKey, iconUrl));
+      });
+
+      // @ts-ignore
+      Promise.all(iconPromises).then(() => {
+
+        console.log("hello")
+        /* Create a data source and add it to the map */
+        let dataSource = new DataSource();
+        this.map.sources.add(dataSource);
+
+        this.auctions.forEach(auction => {
+          if (!auction.assets || auction.assets.length === 0) return;
+
+          auction.assets.forEach(asset => {
+            if (!asset.coordinates) return;
+
+            let point = new Point([
+              parseFloat(asset.coordinates.lon),
+              parseFloat(asset.coordinates.lat)
+            ]);
+
+            // Create a feature with auction and asset data in properties
+            const feature = new Feature(point, {
+              auction: auction,
+              asset: asset,
+              icon: asset.assetType || 'pin-blue',
+            });
+
+            dataSource.add(feature);
           });
+        });
 
-          this.map.markers.add(marker);
+        // Create a symbol layer using the data source and add it to the map
+        const symbolLayer = new SymbolLayer(dataSource, null!, {
+          minZoom: 0,
+          maxZoom: 24,
+          iconOptions: {
+            // Use the icon from the feature's properties
+            image: ['get', 'icon'], // This ensures the correct icon is used from the properties
+            size: 0.07,              // Adjust size as needed
+            allowOverlap: true      // Allow icons to overlap
+          }
+        });
 
-          this.map.events.add('click', marker, () => {
-            marker.togglePopup();
-            this.openDialog(auction, asset)
-          });
-        }
+        this.map.layers.add(symbolLayer);
+
       });
     });
 
+    // Attach click event handler to the symbol layer
+    this.map.events.add('click', (e) => {
+      if (!e.shapes || e.shapes.length < 0) return;
+      // @ts-ignore
+      let properties = e.shapes[0].getProperties();
+      this.openDialog(properties.auction, properties.asset);
+    });
   }
 
   private openDialog(auction: Auction, asset: AuctionAsset): void {
@@ -113,7 +153,6 @@ export class AzureMapComponent implements OnInit, OnChanges {
           positions.push([parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)]);
         }
       });
-
     });
 
     if (positions.length == 0) return;
