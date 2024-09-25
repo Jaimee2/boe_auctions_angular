@@ -134,65 +134,6 @@ export class AzureMapComponent implements OnInit, OnChanges {
     });
   }
 
-  // private addMarkers() {
-  //   //Wait until the map resources are ready.
-  //   this.map.events.add('ready', () => {
-  //
-  //     // this.map.imageSprite.add('my-custom-icon', Constants.assetIcons.get('Vivienda')!)
-  //     //   .then(() => {
-  //     //
-  //     // })
-  //
-  //     /*Create a data source and add it to the map*/
-  //     let dataSource = new DataSource();
-  //     this.map.sources.add(dataSource);
-  //
-  //     this.auctions.forEach(auction => {
-  //       if (!auction.assets || auction.assets.length === 0) return;
-  //
-  //       auction.assets.forEach(asset => {
-  //         if (!asset.coordinates) return;
-  //
-  //         let point = new Point([
-  //           parseFloat(asset.coordinates.lon),
-  //           parseFloat(asset.coordinates.lat)
-  //         ]);
-  //
-  //         // Create a feature with auction and asset data in properties
-  //         const feature = new Feature(point, {
-  //           auction: auction,
-  //           asset: asset,
-  //           icon: Constants.assetIcons.get(asset.assetType) || 'default-icon',
-  //         });
-  //
-  //         dataSource.add(feature);
-  //
-  //       })
-  //     })
-  //
-  //     //Create a symbol layer using the data source and add it to the this.map
-  //     const symbolLayer = new SymbolLayer(dataSource, null!, {
-  //       minZoom: 0,
-  //       maxZoom: 24,
-  //       iconOptions: {
-  //         image: 'pin-blue', // Use your desired icon image
-  //         // size: 0.03,         // Adjust size as needed
-  //         allowOverlap: true // Allow icons to overlap
-  //       }
-  //     });
-  //
-  //     this.map.layers.add(symbolLayer);
-  //
-  //   });
-  //   // Attach click event handler to the symbol layer
-  //   this.map.events.add('click', (e) => {
-  //     if (!e.shapes || e.shapes.length < 0) return;
-  //     // @ts-ignore
-  //     let properties = e.shapes[0].getProperties();
-  //     this.openDialog(properties.auction, properties.asset);
-  //   });
-  // }
-
   private openDialog(auction: Auction, asset: AuctionAsset): void {
     this.dialog.open(AuctionDialogComponent, {
       width: '400px',
