@@ -37,4 +37,10 @@ export interface AuctionAsset {
   legalTitle: string;
   primaryResidence: boolean;
   idufir: string;
+
+  auctionValue: string;
+  appraisalValue: string;
+  minimumBid: string;
+  bidIncrement: string;
+  depositAmount: string;
 }

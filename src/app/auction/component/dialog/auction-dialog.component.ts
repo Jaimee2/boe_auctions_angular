@@ -22,15 +22,23 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
         Auction detail
       </h2>
 
-      <p><strong>Identifier:</strong> {{ data[0].identifier }}</p>
-      <p><strong>Type:</strong> {{ data[1].assetType }}</p>
+      @if (data[0].lots === "Sin lotes") {
 
-      <p><strong>Lots:</strong> {{ data[0].lots }}</p>
+        <p><strong>Identifier:</strong> {{ data[0].identifier }}</p>
+        <p><strong>Type:</strong> {{ data[1].assetType }}</p>
+        <p><strong>Lots:</strong> {{ data[0].lots }}</p>
+        <p><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
+        <p><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
+        <p><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
 
-      <p><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
+      } @else {
 
-      <p><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
-      <p><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
+        <p><strong>Identifier:</strong> {{ data[0].identifier }}</p>
+        <p><strong>Type:</strong> {{ data[1].assetType }}</p>
+        <p><strong>Appraisal Value:</strong> {{ data[1].auctionValue }}</p>
+        <p><strong>Bid Increment:</strong> {{ data[1].bidIncrement }}</p>
+        <p><strong>Deposit Amount:</strong> {{ data[1].depositAmount }}</p>
+      }
 
       <div class="max-w-lg mx-auto p-3">
 
@@ -39,13 +47,13 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
 
       <div class="flex flex-wrap gap-4 text-center justify-center">
         <a (click)="goToAssetPage()"
-                class="rounded bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium py-3 px-4">
+           class="rounded bg-rose-600 hover:bg-rose-700 text-white text-sm font-medium py-3 px-4">
           See more
         </a>
         <a (click)="goToAssetPage()"
-          href="#"
-          class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700
+           class="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700
            focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+           href="#"
         >
           Go to the boe page
         </a>
