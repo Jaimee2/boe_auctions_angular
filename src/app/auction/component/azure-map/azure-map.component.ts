@@ -28,7 +28,7 @@ import Feature = atlas.data.Feature;
 })
 export class AzureMapComponent implements OnInit, OnChanges {
   @ViewChild('map', {static: true}) mapContainer!: ElementRef;
-  @Input() auctions!: Auction[];
+  @Input() auctionAssets!: AuctionAsset[];
   private map!: AzureMap;
   private dialog = inject(MatDialog);
 
@@ -86,26 +86,21 @@ export class AzureMapComponent implements OnInit, OnChanges {
         let dataSource = new DataSource();
         this.map.sources.add(dataSource);
 
-        this.auctions.forEach(auction => {
-          if (!auction.assets || auction.assets.length === 0) return;
+        this.auctionAssets.forEach(asset => {
+          if (!asset.coordinates) return;
 
-          auction.assets.forEach(asset => {
-            if (!asset.coordinates) return;
+          let point = new Point([
+            parseFloat(asset.coordinates.lon),
+            parseFloat(asset.coordinates.lat)
+          ]);
 
-            let point = new Point([
-              parseFloat(asset.coordinates.lon),
-              parseFloat(asset.coordinates.lat)
-            ]);
-
-            // Create a feature with auction and asset data in properties
-            const feature = new Feature(point, {
-              auction: auction,
-              asset: asset,
-              icon: asset.assetType || 'pin-blue',
-            });
-
-            dataSource.add(feature);
+          // Create a feature with auction and asset data in properties
+          const feature = new Feature(point, {
+            asset: asset,
+            icon: asset.assetType || 'pin-blue',
           });
+
+          dataSource.add(feature);
         });
 
         // Create a symbol layer using the data source and add it to the map
@@ -130,39 +125,32 @@ export class AzureMapComponent implements OnInit, OnChanges {
       if (!e.shapes || e.shapes.length < 0) return;
       // @ts-ignore
       let properties = e.shapes[0].getProperties();
-      this.openDialog(properties.auction, properties.asset);
+      this.openDialog(properties.asset);
     });
   }
 
-  private openDialog(auction: Auction, asset: AuctionAsset): void {
+  private openDialog(asset: AuctionAsset): void {
     this.dialog.open(AuctionDialogComponent, {
       width: '400px',
       height: ' ',
-      data: [auction, asset]
+      data: asset
     });
   }
 
   private centerMap() {
-    if (this.map && this.auctions && this.auctions.length == 0) return;
+    if (this.map && this.auctionAssets && this.auctionAssets.length == 0) return;
     const positions: data.Position[] = [];
 
-    this.auctions.forEach(auction => {
-      if (auction.assets && auction.assets.length == 0) return;
-      auction.assets.forEach(asset => {
-        if (asset.coordinates) {
-          positions.push([parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)]);
-        }
-      });
+    this.auctionAssets.forEach(asset => {
+      if (asset.coordinates) {
+        positions.push([parseFloat(asset.coordinates.lon), parseFloat(asset.coordinates.lat)]);
+      }
     });
 
     if (positions.length == 0) return;
 
     const bounds = data.BoundingBox.fromPositions(positions);
-    this.map.setCamera({
-      bounds: bounds,
-      padding: 50
-    });
-
+    this.map.setCamera({bounds: bounds, padding: 50});
   }
 
 }

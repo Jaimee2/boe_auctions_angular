@@ -14,7 +14,7 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
     <div class="max-w-sm mx-auto p-6 text-center">
       <div class="flex justify-center items-center mb-4">
         <div class="bg-rose-300 rounded-full p-2">
-          <img [src]="getIconByAssetType(data[1].assetType)" alt="" class="h-8 w-8">
+          <img [src]="getIconByAssetType(asset.assetType)" alt="" class="h-8 w-8">
         </div>
       </div>
 
@@ -22,23 +22,15 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
         Auction detail
       </h2>
 
-      @if (data[0].lots === "Sin lotes") {
 
-        <p><strong>Identifier:</strong> {{ data[0].identifier }}</p>
-        <p><strong>Type:</strong> {{ data[1].assetType }}</p>
-        <p><strong>Lots:</strong> {{ data[0].lots }}</p>
-        <p><strong>Appraisal Value:</strong> {{ data[0].appraisalValue }}</p>
-        <p><strong>Bid Increment:</strong> {{ data[0].bidIncrement }}</p>
-        <p><strong>Deposit Amount:</strong> {{ data[0].depositAmount }}</p>
+      <p><strong>Identifier:</strong> {{ asset.auctionId }}</p>
+      <p><strong>Type:</strong> {{ asset.assetType }}</p>
+<!--      <p><strong>Lots:</strong> {{ asset.lots }}</p>-->
+      <p><strong>Auction Value:</strong> {{ asset.auctionValue }}</p>
+      <p><strong>Appraisal Value:</strong> {{ asset.appraisalValue }}</p>
+      <p><strong>Bid Increment:</strong> {{ asset.bidIncrement }}</p>
+      <p><strong>Deposit Amount:</strong> {{ asset.depositAmount }}</p>
 
-      } @else {
-
-        <p><strong>Identifier:</strong> {{ data[0].identifier }}</p>
-        <p><strong>Type:</strong> {{ data[1].assetType }}</p>
-        <p><strong>Appraisal Value:</strong> {{ data[1].auctionValue }}</p>
-        <p><strong>Bid Increment:</strong> {{ data[1].bidIncrement }}</p>
-        <p><strong>Deposit Amount:</strong> {{ data[1].depositAmount }}</p>
-      }
 
       <div class="max-w-lg mx-auto p-3">
 
@@ -69,17 +61,19 @@ export class AuctionDialogComponent {
   protected startDate?: Date;
   protected endDate?: Date;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: [Auction, AuctionAsset]) {
-    console.log(data)
-    this.startDate = this.transformDate(data[0].startDate);
-    this.endDate = this.transformDate(data[0].endDate);
+  constructor(@Inject(MAT_DIALOG_DATA) public asset: AuctionAsset) {
+    console.log(asset)
+    console.log(asset.startDate)
+    this.startDate = this.transformDate(asset.startDate);
+    this.endDate = this.transformDate(asset.endDate);
   }
 
   goToAssetPage() {
-    window.open(this.data[1].assetLink);
+    window.open(this.asset.assetLink);
   }
 
   transformDate(dateString: string): Date {
+    console.log("data-" + dateString)
     const [day, month, year, time] = dateString.split(/[- :]/);
     console.log(`${year}-${month}-${day}T${time}`);
     const date = new Date(`${year}-${month}-${day} ${time}:00:00`);

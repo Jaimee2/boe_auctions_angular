@@ -15,6 +15,10 @@ export interface Auction {
 }
 
 export interface AuctionAsset {
+  auctionId: string;
+
+  startDate: string;
+  endDate: string;
   assetLink: string;
   assetType: string;
   description: string;
