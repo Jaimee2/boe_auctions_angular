@@ -1,6 +1,6 @@
 import {Component, ElementRef, inject, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import atlas, {AuthenticationType, data, Map as AzureMap} from 'azure-maps-control';
-import {Auction, AuctionAsset} from '../../interface/auction';
+import {AuctionAsset} from '../../interface/auction';
 import {AuctionDialogComponent} from "../dialog/auction-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Constants} from "../../constants";
@@ -69,10 +69,8 @@ export class AzureMapComponent implements OnInit, OnChanges {
   private addMarkers() {
     // Wait until the map resources are ready.
     this.map.events.add('ready', () => {
-      // Add custom icons to the map's image sprite
 
-      // @ts-ignore
-      const iconPromises = [];
+      const iconPromises: any = [];
 
       Constants.assetIcons.forEach((iconUrl, iconKey) => {
         iconPromises.push(this.map.imageSprite.add(iconKey, iconUrl));
@@ -97,6 +95,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
           // Create a feature with auction and asset data in properties
           const feature = new Feature(point, {
             asset: asset,
+            appraisalValue: asset.appraisalValue, // Ensure this property is added
             icon: asset.assetType || 'pin-blue',
           });
 
@@ -104,7 +103,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
         });
 
         // Create a symbol layer using the data source and add it to the map
-        const symbolLayer = new SymbolLayer(dataSource, null!, {
+        const iconLayer = new SymbolLayer(dataSource, null!, {
           minZoom: 0,
           maxZoom: 24,
           iconOptions: {
@@ -115,7 +114,26 @@ export class AzureMapComponent implements OnInit, OnChanges {
           }
         });
 
-        this.map.layers.add(symbolLayer);
+        // Text Layer
+        const textLayer = new SymbolLayer(dataSource, null!, {
+          minZoom: 12, // Set the zoom level to show labels
+          maxZoom: 24,
+          textOptions: {
+            textField: ['get', 'appraisalValue'],
+            offset: [0, 1],
+            size: 16,
+            color: 'black',
+            haloColor: 'white',
+            haloWidth: 20,
+            allowOverlap:false,
+          },
+          iconOptions: {
+            image: '',
+          },
+        });
+
+        this.map.layers.add(iconLayer);
+        this.map.layers.add(textLayer);
 
       });
     });
