@@ -1,7 +1,7 @@
 export class Constants {
 
   public static assetIcons = new Map<string, string>([
-    ['Vivienda', 'assets/img/hose-icon-bg-rose.png'],
+    ['Vivienda', 'assets/img/house-icon.png'],
     ['Garaje', 'assets/img/garage.png'],
     ['Nave industrial', 'assets/img/warehouse.png'],
     ['Local comercial', 'assets/img/store.png'],

@@ -110,7 +110,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
           iconOptions: {
             // Use the icon from the feature's properties
             image: ['get', 'icon'], // This ensures the correct icon is used from the properties
-            size: 0.07,              // Adjust size as needed
+            size: 0.15,              // Adjust size as needed
             allowOverlap: true      // Allow icons to overlap
           }
         });
