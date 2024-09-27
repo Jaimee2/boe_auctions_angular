@@ -70,6 +70,10 @@ export class AzureMapComponent implements OnInit, OnChanges {
     // Wait until the map resources are ready.
     this.map.events.add('ready', () => {
 
+      this.map.controls.add(new atlas.control.StyleControl({
+        mapStyles: ['road', 'night', 'satellite_road_labels']
+      }));
+
       const iconPromises: any = [];
 
       Constants.assetIcons.forEach((iconUrl, iconKey) => {
@@ -95,7 +99,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
           // Create a feature with auction and asset data in properties
           const feature = new Feature(point, {
             asset: asset,
-            appraisalValue: asset.appraisalValue, // Ensure this property is added
+            auctionValue: asset.auctionValue, // Ensure this property is added
             icon: asset.assetType || 'pin-blue',
           });
 
@@ -119,13 +123,13 @@ export class AzureMapComponent implements OnInit, OnChanges {
           minZoom: 12, // Set the zoom level to show labels
           maxZoom: 24,
           textOptions: {
-            textField: ['get', 'appraisalValue'],
+            textField: ['get', 'auctionValue'],
             offset: [0, 1],
             size: 16,
             color: 'black',
             haloColor: 'white',
             haloWidth: 20,
-            allowOverlap:false,
+            allowOverlap: false,
           },
           iconOptions: {
             image: '',
