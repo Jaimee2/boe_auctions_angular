@@ -84,7 +84,6 @@ export class AzureMapComponent implements OnInit, OnChanges {
       // @ts-ignore
       Promise.all(iconPromises).then(() => {
 
-        console.log("hello")
         /* Create a data source and add it to the map */
         let dataSource = new DataSource();
         this.map.sources.add(dataSource);
@@ -97,31 +96,30 @@ export class AzureMapComponent implements OnInit, OnChanges {
             parseFloat(asset.coordinates.lat)
           ]);
 
-          // Create a feature with auction and asset data in properties
+          let formattedAuctionValue =
+            asset.auctionValue.toLocaleString("de-DE", {style: "currency", currency: "EUR"});
+
           const feature = new Feature(point, {
             asset: asset,
-            auctionValue: asset.auctionValue, // Ensure this property is added
+            auctionValue: formattedAuctionValue,
             icon: asset.assetType || 'pin-blue',
           });
 
           dataSource.add(feature);
         });
 
-        // Create a symbol layer using the data source and add it to the map
         const iconLayer = new SymbolLayer(dataSource, null!, {
           minZoom: 0,
           maxZoom: 24,
           iconOptions: {
-            // Use the icon from the feature's properties
-            image: ['get', 'icon'], // This ensures the correct icon is used from the properties
-            size: 0.15,              // Adjust size as needed
-            allowOverlap: true      // Allow icons to overlap
+            image: ['get', 'icon'],
+            size: 0.15,
+            allowOverlap: true,
           }
         });
 
-        // Text Layer
         const textLayer = new SymbolLayer(dataSource, null!, {
-          minZoom: 10, // Set the zoom level to show labels
+          minZoom: 10,
           maxZoom: 24,
           textOptions: {
             textField: ['get', 'auctionValue'],
@@ -143,7 +141,6 @@ export class AzureMapComponent implements OnInit, OnChanges {
       });
     });
 
-    // Attach click event handler to the symbol layer
     this.map.events.add('click', (e) => {
       if (!e.shapes || e.shapes.length < 0) return;
       // @ts-ignore

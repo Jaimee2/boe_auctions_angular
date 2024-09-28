@@ -42,9 +42,9 @@ export interface AuctionAsset {
   primaryResidence: boolean;
   idufir: string;
 
-  auctionValue: string;
-  appraisalValue: string;
-  minimumBid: string;
-  bidIncrement: string;
-  depositAmount: string;
+  auctionValue: number;
+  appraisalValue: number;
+  minimumBid: number;
+  bidIncrement: number;
+  depositAmount: number;
 }
