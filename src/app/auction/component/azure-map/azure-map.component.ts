@@ -57,6 +57,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
     this.map = new AzureMap(this.mapContainer?.nativeElement, {
       center: [-3.7035825, 40.4167047], // Centered on Madrid
       zoom: 10,
+      maxZoom:18,
       language: 'en-US',
       enableAccessibilityLocationFallback: false,
       authOptions: {
