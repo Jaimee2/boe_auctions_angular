@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Auction, AuctionAsset} from "./interface/auction";
+import {AuctionAsset} from "./interface/auction";
 import {AssetType} from "./constants";
 
 @Injectable({
@@ -9,7 +9,9 @@ import {AssetType} from "./constants";
 })
 export class AssetService {
 
-  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial, AssetType.Solar, AssetType.FincaRustica, AssetType.Trastero];
+  assetTypes = [AssetType.Garaje, AssetType.Vivienda, AssetType.LocalComercial, AssetType.NaveIndustrial,
+    AssetType.Solar, AssetType.FincaRustica, AssetType.Trastero
+  ];
 
   private apiUrl = 'https://azure-function-boe-auction.azurewebsites.net/api';
 

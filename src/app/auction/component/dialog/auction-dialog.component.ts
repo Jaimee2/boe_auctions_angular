@@ -1,14 +1,14 @@
 import {Component, Inject} from '@angular/core';
 import {Auction, AuctionAsset} from "../../interface/auction";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {DatePipe, DecimalPipe} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe} from "@angular/common";
 import {Constants} from "../../constants";
 import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
 
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, DateDifferencePipe],
+  imports: [DatePipe, DecimalPipe, DateDifferencePipe, CurrencyPipe],
   template: `
 
     <div class="max-w-sm mx-auto p-6 text-center">
@@ -25,11 +25,11 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
 
       <p><strong>Identifier:</strong> {{ asset.auctionId }}</p>
       <p><strong>Type:</strong> {{ asset.assetType }}</p>
-<!--      <p><strong>Lots:</strong> {{ asset.lots }}</p>-->
-      <p><strong>Auction Value:</strong> {{ asset.auctionValue }}</p>
-      <p><strong>Appraisal Value:</strong> {{ asset.appraisalValue }}</p>
-      <p><strong>Bid Increment:</strong> {{ asset.bidIncrement }}</p>
-      <p><strong>Deposit Amount:</strong> {{ asset.depositAmount }}</p>
+      <!--      <p><strong>Lots:</strong> {{ asset.lots }}</p>-->
+      <p><strong>Auction Value:</strong> {{ asset.auctionValue| number:'1.2-2' }} €</p>
+      <p><strong>Appraisal Value:</strong> {{ asset.appraisalValue| number:'1.2-2' }} €</p>
+      <p><strong>Bid Increment:</strong> {{ asset.bidIncrement| number:'1.2-2' }} €</p>
+      <p><strong>Deposit Amount:</strong> {{ asset.depositAmount| number:'1.2-2' }} €</p>
 
 
       <div class="max-w-lg mx-auto p-3">

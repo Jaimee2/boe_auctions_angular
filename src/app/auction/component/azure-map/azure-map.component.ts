@@ -58,6 +58,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
       center: [-3.7035825, 40.4167047], // Centered on Madrid
       zoom: 10,
       language: 'en-US',
+      enableAccessibilityLocationFallback: false,
       authOptions: {
         authType: AuthenticationType.subscriptionKey,
         subscriptionKey: 'XRKf4AGk19X05G3NDvSmYinOvIHsyGaJiVkNijAwtsvKWJCqVmOMJQQJ99AHAC5RqLJ2gwi4AAAgAZMP2t9J'
@@ -71,7 +72,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
     this.map.events.add('ready', () => {
 
       this.map.controls.add(new atlas.control.StyleControl({
-        mapStyles: ['road', 'night', 'satellite_road_labels']
+        mapStyles: ['road', 'night', 'satellite']
       }));
 
       const iconPromises: any = [];
@@ -120,7 +121,7 @@ export class AzureMapComponent implements OnInit, OnChanges {
 
         // Text Layer
         const textLayer = new SymbolLayer(dataSource, null!, {
-          minZoom: 12, // Set the zoom level to show labels
+          minZoom: 10, // Set the zoom level to show labels
           maxZoom: 24,
           textOptions: {
             textField: ['get', 'auctionValue'],
