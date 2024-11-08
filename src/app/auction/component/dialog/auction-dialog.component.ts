@@ -34,7 +34,7 @@ import {DateDifferencePipe} from "../../../core/pipe/DateDifference.pipe";
 
       <div class="max-w-lg mx-auto p-3">
 
-        <span class="text-sm font-medium">{{ Date() | dateDifference:this.endDate! }}</span>
+<!--        <span class="text-sm font-medium">{{ Date() | dateDifference:this.endDate! }}</span>-->
       </div>
 
       <div class="flex flex-wrap gap-4 text-center justify-center">
